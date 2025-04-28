@@ -84,6 +84,15 @@
 <script>
 import axios from "axios";
 
+// Create an axios instance with default config
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
 export default {
   data() {
     return {
@@ -147,14 +156,25 @@ export default {
 
       // Make the API call to submit the data
       try {
-        const response = await axios.post(
-          "http://localhost:8000/setup/",
-          setupData
-        );
+        const response = await api.post("/setup", setupData);
         console.log("Setup completed:", response.data);
-        // You can redirect to another page or show a success message
+        // Redirect to dashboard or home page after successful setup
+        this.$router.push("/dashboard");
       } catch (error) {
         console.error("Error completing setup:", error);
+        if (error.response) {
+          alert(
+            `Setup failed: ${
+              error.response.data.detail || error.response.statusText
+            }`
+          );
+        } else if (error.request) {
+          alert(
+            "No response from server. Please check if the backend is running."
+          );
+        } else {
+          alert(`Error: ${error.message}`);
+        }
       }
     },
   },

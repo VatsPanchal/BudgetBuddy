@@ -2,13 +2,13 @@
   <div class="create-account-container">
     <div class="create-account-window">
       <h1 class="title-name">Create Account</h1>
-      <form @submit.prevent="handleLogin" class="login-form">
+      <form @submit.prevent="submitForm" class="login-form">
         <div class="input-group">
           <label for="username">Username</label>
           <input
             type="text"
             id="username"
-            v-model="username"
+            v-model="formData.username"
             required
             placeholder="Enter your username"
           />
@@ -18,7 +18,7 @@
           <input
             type="password"
             id="password"
-            v-model="password"
+            v-model="formData.password"
             required
             placeholder="Enter your password"
           />
@@ -77,6 +77,15 @@
 <script>
 import axios from "axios";
 
+// Create an axios instance with default config
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000", // Using 127.0.0.1 instead of localhost
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
 export default {
   data() {
     return {
@@ -95,35 +104,49 @@ export default {
     async submitForm() {
       if (this.validateForm()) {
         this.formSubmitted = true;
-        console.log("Account created:", this.formData);
+        console.log("Account creation attempt:", this.formData);
 
-        // Construct the request body
         const requestBody = {
           username: this.formData.username,
-          firstName: this.formData.firstName,
-          lastName: this.formData.lastName,
+          first_name: this.formData.firstName,
+          last_name: this.formData.lastName,
           email: this.formData.email,
           password: this.formData.password,
+          phone: this.formData.phone || "0000000000",
         };
 
-        if (this.formData.phone) {
-          requestBody.phone = this.formData.phone;
-        }
-
         try {
-          // Make the API call to create the account
-          const response = await axios.post(
-            "http://localhost:8000/users/",
-            requestBody
-          );
-          // const response2 = await axios.post(
-          //   "http://localhost:8000/users/",
-          //   requestBody
-          // );
+          console.log("Sending request to:", "http://127.0.0.1:8000/register");
+          const response = await api.post("/register", requestBody);
           console.log("Account created successfully:", response.data);
-          this.$router.push("/setup-page");
+          if (response.status === 200 || response.status === 201) {
+            // Store the user data in localStorage or Vuex if needed
+            localStorage.setItem("userData", JSON.stringify(response.data));
+            // Redirect to setup page
+            await this.$router.push("/setup-page");
+          }
         } catch (error) {
-          console.error("Error creating account:", error);
+          console.error("Full error object:", error);
+          console.error("Error response:", error.response);
+          console.error("Error message:", error.message);
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            alert(
+              `Account creation failed: ${
+                error.response.data.detail || error.response.statusText
+              }`
+            );
+          } else if (error.request) {
+            // The request was made but no response was received
+            alert(
+              "No response from server. Please check if the backend is running."
+            );
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            alert(`Error: ${error.message}`);
+          }
+          this.formSubmitted = false;
         }
       } else {
         alert("Please fill all the required fields!");
@@ -131,7 +154,6 @@ export default {
     },
 
     validateForm() {
-      // Ensure all required fields are filled
       return (
         this.formData.username &&
         this.formData.password &&
