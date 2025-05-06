@@ -1,0 +1,11 @@
+runtime: python39
+service: frontend
+
+handlers:
+  - url: /(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|ttf|woff|woff2|eot|otf|map|json))
+    static_files: \1
+    upload: .*
+
+  - url: /.*
+    static_files: index.html
+    upload: index.html

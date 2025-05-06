@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\nikha\OneDrive\Documents\CS122 Final Project\project\budget-buddy\venv
+set VIRTUAL_ENV=C:\Users\nikha\OneDrive\Documents\CS122 Final Project\BudgetBuddy\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

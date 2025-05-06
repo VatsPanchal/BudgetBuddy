@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "@/api";
 
 export default {
   name: "LoginPage",
@@ -70,7 +70,7 @@ export default {
       this.error = null;
 
       try {
-        const response = await axios.post("/api/auth/login", {
+        const response = await api.post("/auth/login", {
           username: this.username,
           password: this.password,
         });

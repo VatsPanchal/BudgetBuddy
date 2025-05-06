@@ -1,0 +1,21 @@
+dispatch:
+  - url: "*/api/*"
+    service: default
+
+  - url: "*/js/*"
+    service: frontend
+
+  - url: "*/css/*"
+    service: frontend
+
+  - url: "*/img/*"
+    service: frontend
+
+  - url: "*/assets/*"
+    service: frontend
+
+  - url: "*/favicon.ico"
+    service: frontend
+
+  - url: "*/"
+    service: frontend

@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "@/api";
 
 export default {
   name: "CreateAccount",
@@ -162,7 +162,7 @@ export default {
       this.error = null;
 
       try {
-        const response = await axios.post("/api/auth/register", {
+        const response = await api.post("/auth/register", {
           first_name: this.firstName,
           last_name: this.lastName,
           username: this.username,

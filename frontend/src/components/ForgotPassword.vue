@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "@/api";
 
 export default {
   name: "ForgotPassword",
@@ -93,7 +93,7 @@ export default {
 
       try {
         console.log("Sending request with email:", this.email);
-        const response = await axios.post("/api/auth/forgot-password", {
+        const response = await api.post("/auth/forgot-password", {
           email: this.email,
         });
         console.log("Response received:", response.data);
