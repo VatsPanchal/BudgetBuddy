@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import api from "@/api";
+import axios from "axios";
 
 export default {
   name: "ForgotPassword",
@@ -93,7 +93,7 @@ export default {
 
       try {
         console.log("Sending request with email:", this.email);
-        const response = await api.post("/auth/forgot-password", {
+        const response = await axios.post("/api/auth/forgot-password", {
           email: this.email,
         });
         console.log("Response received:", response.data);
@@ -136,25 +136,29 @@ export default {
   align-items: center;
   min-height: 100vh;
   padding: 1rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .forgot-password-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--shadow-color);
   padding: 2rem;
   width: 100%;
   max-width: 400px;
+  border: 1px solid var(--border-color);
 }
 
 h2 {
-  color: #4caf50;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .subtitle {
-  color: #6c757d;
+  color: var(--text-secondary);
+  opacity: 0.8;
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -173,24 +177,30 @@ h2 {
 
 label {
   font-weight: 500;
-  color: #6c757d;
+  color: var(--text-secondary);
 }
 
 input {
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 1rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+input::placeholder {
+  color: var(--text-secondary);
 }
 
 input:focus {
   outline: none;
-  border-color: #4caf50;
+  border-color: var(--progress-fill);
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
 
 .btn-primary {
-  background-color: #4caf50;
+  background-color: var(--progress-fill);
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -210,26 +220,23 @@ input:focus {
 }
 
 .btn-secondary {
-  display: inline-block;
-  background-color: #f8f9fa;
-  color: #4caf50;
+  background-color: var(--bg-primary);
+  color: var(--progress-fill);
   padding: 0.75rem 1.5rem;
-  border: 1px solid #4caf50;
+  border: 1px solid var(--progress-fill);
   border-radius: 4px;
   font-size: 1rem;
-  text-decoration: none;
   cursor: pointer;
   transition: all 0.2s;
-  margin-top: 1rem;
 }
 
 .btn-secondary:hover {
-  background-color: #4caf50;
+  background-color: var(--progress-fill);
   color: white;
 }
 
 .btn-link {
-  color: #4caf50;
+  color: var(--progress-fill);
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.2s;
@@ -240,9 +247,9 @@ input:focus {
 }
 
 .error-message {
-  color: #dc3545;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
+  color: var(--error-text);
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
   padding: 0.75rem;
   border-radius: 4px;
   text-align: center;
@@ -250,9 +257,9 @@ input:focus {
 
 .success-message {
   text-align: center;
-  color: #28a745;
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
+  color: var(--success-text);
+  background-color: var(--success-bg);
+  border: 1px solid var(--success-border);
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
@@ -264,7 +271,7 @@ input:focus {
 }
 
 .error {
-  color: #dc3545;
+  color: var(--error-text);
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }

@@ -23,9 +23,14 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:8000",
+        target:
+          process.env.VUE_APP_API_URL ||
+          "https://budget-buddy-backend-41557050751.us-central1.run.app",
         changeOrigin: true,
       },
     },
   },
+  // Add production configuration
+  publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
+  productionSourceMap: false,
 });

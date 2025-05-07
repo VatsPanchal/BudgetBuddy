@@ -17,14 +17,14 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
-REM Create Python virtual environment
+REM Create and activate virtual environment
 echo Setting up Python virtual environment...
 python -m venv venv
+call venv\Scripts\activate
 
 REM Install backend dependencies
 echo Installing backend dependencies...
 cd backend
-call ..\venv\Scripts\activate
 pip install -r requirements.txt
 
 REM Run database migrations
@@ -33,9 +33,9 @@ alembic upgrade head
 
 REM Start backend server in a new window
 echo Starting backend server...
-start cmd /k "cd backend && ..\venv\Scripts\activate && uvicorn main:app --reload --port 8000"
+start cmd /k "cd backend && venv\Scripts\activate && uvicorn main:app --reload --port 8000"
 
-REM Setup frontend
+REM Install frontend dependencies and start frontend server
 echo Setting up frontend...
 cd ..\frontend
 npm install
@@ -44,4 +44,4 @@ start cmd /k "cd frontend && npm run serve"
 
 echo Setup complete! The application will be available at http://localhost:8080
 echo Press any key to exit this window...
-pause >nul
+pause >nul 

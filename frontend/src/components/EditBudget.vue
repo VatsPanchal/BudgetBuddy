@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import api from "@/api";
+import axios from "axios";
 
 export default {
   name: "EditBudget",
@@ -130,7 +130,7 @@ export default {
           return;
         }
 
-        const response = await api.get("/budget/summary", {
+        const response = await axios.get("/api/budget/summary", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -162,7 +162,7 @@ export default {
           return;
         }
 
-        const response = await api.get("/budget/expenses", {
+        const response = await axios.get("/api/budget/expenses", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -210,8 +210,8 @@ export default {
           return acc;
         }, {});
 
-        await api.post(
-          "/budget/update",
+        await axios.post(
+          "/api/budget/update",
           {
             income: this.income,
             savings_goal: savingsAmount,

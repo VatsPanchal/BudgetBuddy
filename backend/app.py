@@ -11,7 +11,11 @@ app = FastAPI(title="Budget Buddy API")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080"],  # Frontend URL
+    allow_origins=[
+        "http://localhost:8080",  # Local development
+        "https://budget-buddy-frontend-ip.nip.io",  # Cloud CDN URL
+        "https://budget-buddy-frontend-ip.nip.io:443"  # Cloud CDN URL with port
+    ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -23,7 +27,7 @@ app.add_middleware(
 @app.middleware("http")
 async def add_cors_headers(request, call_next):
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "http://localhost:8080"
+    response.headers["Access-Control-Allow-Origin"] = request.headers.get("origin", "http://localhost:8080")
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     response.headers["Access-Control-Allow-Credentials"] = "true"

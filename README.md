@@ -2,6 +2,13 @@
 
 A full-stack web application for managing personal budgets and expenses. Built with Vue.js for the frontend and FastAPI for the backend.
 
+## Live Demo
+
+The application is deployed and available at:
+
+- Frontend: [https://budget-buddy-frontend.web.app](https://budget-buddy-frontend.web.app)
+- Backend API: [https://budget-buddy-backend-41557050751.us-central1.run.app](https://budget-buddy-backend-41557050751.us-central1.run.app)
+
 ## Features
 
 - User authentication (register, login, password reset)
@@ -10,6 +17,23 @@ A full-stack web application for managing personal budgets and expenses. Built w
 - Visual budget summaries
 - Dark mode support
 - Responsive design
+
+## Deployment
+
+The application is deployed using the following services:
+
+### Backend (Google Cloud Run)
+
+- Deployed on Google Cloud Run
+- Region: us-central1
+- Service URL: https://budget-buddy-backend-41557050751.us-central1.run.app
+- API Documentation: https://budget-buddy-backend-41557050751.us-central1.run.app/docs
+
+### Frontend (Firebase Hosting)
+
+- Deployed on Firebase Hosting
+- URL: https://budget-buddy-frontend.web.app
+- Alternative URL: https://budget-buddy-frontend.firebaseapp.com
 
 ## Prerequisites
 
@@ -118,11 +142,10 @@ budget-buddy/
 
 ## API Documentation
 
-Once the backend server is running, you can access the API documentation at:
+The API documentation is available at:
 
-```
-http://localhost:8000/docs
-```
+- Local development: http://localhost:8000/docs
+- Production: https://budget-buddy-backend-41557050751.us-central1.run.app/docs
 
 ## Available Scripts
 
@@ -142,10 +165,13 @@ http://localhost:8000/docs
 The backend uses the following environment variables:
 
 - `SECRET_KEY` - JWT secret key (default: "your-secret-key-here")
+- `DATABASE_URL` - Database connection URL (for production)
 
 ## Database
 
 The application uses SQLite for development. The database file is created automatically at `budget_buddy.db` in the backend directory.
+
+For production deployment, the database is hosted on Google Cloud SQL.
 
 ## Contributing
 

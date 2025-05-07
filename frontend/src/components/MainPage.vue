@@ -208,7 +208,7 @@
 </template>
 
 <script>
-import api from "@/api";
+import axios from "axios";
 
 export default {
   name: "MainPage",
@@ -331,7 +331,7 @@ export default {
           return;
         }
 
-        const response = await api.get("/budget/summary", {
+        const response = await axios.get("/api/budget/summary", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -352,7 +352,7 @@ export default {
           return;
         }
 
-        const response = await api.get("/budget/chart", {
+        const response = await axios.get("/api/budget/chart", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -367,7 +367,7 @@ export default {
     },
     async fetchExpenses() {
       try {
-        const response = await api.get("/budget/expenses");
+        const response = await axios.get("/api/budget/expenses");
         this.expenses = response.data;
       } catch (error) {
         console.error("Error fetching expenses:", error);
@@ -384,11 +384,15 @@ export default {
           return;
         }
 
-        const response = await api.post("/budget/expense", this.newExpense, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.post(
+          "/api/budget/expense",
+          this.newExpense,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         await this.fetchBudgetSummary();
         await this.fetchChart();
@@ -417,7 +421,7 @@ export default {
 
       this.loading = true;
       try {
-        await api.delete(`/budget/expense/${expenseId}`);
+        await axios.delete(`/api/budget/expense/${expenseId}`);
         // Remove the expense from the list
         this.expenses = this.expenses.filter((exp) => exp.id !== expenseId);
         // Refresh the budget summary and chart
@@ -446,7 +450,7 @@ export default {
           return;
         }
 
-        const response = await api.get("/auth/me", {
+        const response = await axios.get("/api/auth/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

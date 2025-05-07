@@ -30,4 +30,3 @@ mypy==1.8.0
 # Optional dependencies
 matplotlib==3.8.2  # For budget visualization
 numpy==1.26.3     # For calculations 
-gunicorn

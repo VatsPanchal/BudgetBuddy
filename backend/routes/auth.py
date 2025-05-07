@@ -7,59 +7,11 @@ import secrets
 from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
 import logging
-from jose import JWTError, jwt
-from datetime import datetime, timedelta
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-SECRET_KEY = "supersecretkey"
-ALGORITHM = "HS256"
-
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    return {"username": username}
-
-
-# Environment variables or hardcode for now
-SECRET_KEY = "supersecretkey"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
-
-def create_access_token(data: dict):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-def verify_access_token(token: str):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise Exception("Invalid token")
-        return username
-    except JWTError:
-        raise Exception("Token is invalid")
-
 
 from database.db_setup import get_db
 from models.user import User
 from models.expense import Expense
 from models.budget import Budget
-
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -94,10 +46,6 @@ def verify_password(password: str, hashed_password: str) -> bool:
     stored_hash, salt = hashed_password.split(":")
     return hashlib.sha256((password + salt).encode()).hexdigest() == stored_hash
 
-from fastapi import APIRouter, HTTPException, Depends
-from sqlalchemy.orm import Session
-import traceback
-
 @router.post("/register")
 async def register(user: UserCreate, db: Session = Depends(get_db)):
     # Check if username or email already exists
@@ -119,15 +67,12 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     
-    # 🔥 Create JWT token for new user
-    access_token = create_access_token(data={"sub": new_user.username})
-    
+    # Return token for immediate login
     return {
         "message": "User created successfully",
-        "token": access_token,
+        "token": new_user.username,  # Using username as token for now
         "token_type": "bearer"
     }
-
 
 @router.post("/login")
 async def login(login_data: LoginRequest, db: Session = Depends(get_db)):

@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import api from "@/api";
+import axios from "axios";
 
 export default {
   name: "Profile",
@@ -155,7 +155,7 @@ export default {
           return;
         }
 
-        const response = await api.get("/profile/info", {
+        const response = await axios.get("/api/profile/info", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -190,8 +190,8 @@ export default {
           return;
         }
 
-        const response = await api.post(
-          "/profile/change-password",
+        const response = await axios.post(
+          "/api/profile/change-password",
           {
             current_password: this.passwordData.current_password,
             new_password: this.passwordData.new_password,
@@ -250,7 +250,7 @@ export default {
           return;
         }
 
-        const response = await api.delete("/auth/delete-account", {
+        const response = await axios.delete("/api/auth/delete-account", {
           data: {
             username: this.deleteData.username,
             password: this.deleteData.password,

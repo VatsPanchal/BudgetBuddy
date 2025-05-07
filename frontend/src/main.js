@@ -4,7 +4,10 @@ import router from "./router";
 import axios from "axios";
 
 // Configure axios
-axios.defaults.baseURL = "http://localhost:8000";
+//axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL =
+  "https://budget-buddy-backend-41557050751.us-central1.run.app";
+
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
 // Add request interceptor for auth token

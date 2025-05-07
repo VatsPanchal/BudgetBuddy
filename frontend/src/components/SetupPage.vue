@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import api from "@/api";
+import axios from "axios";
 
 export default {
   name: "SetupPage",
@@ -190,7 +190,7 @@ export default {
 
       try {
         const token = localStorage.getItem("token");
-        const response = await api.post("/budget/setup", {
+        const response = await axios.post("/api/budget/setup", {
           income: this.income,
           savings_goal: this.savings,
           categories: this.categories,
