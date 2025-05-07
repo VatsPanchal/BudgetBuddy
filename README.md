@@ -179,10 +179,6 @@ For production deployment, the database is hosted on Google Cloud SQL.
 2. Make your changes
 3. Submit a pull request
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Quick Start (One-Click Setup)
 
 For users who want to run the project quickly without manual setup, we provide automated scripts:
