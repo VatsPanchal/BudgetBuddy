@@ -7,7 +7,7 @@ A full-stack web application for managing personal budgets and expenses. Built w
 The application is deployed and available at:
 
 - Frontend: [budgetbuddy-0508.firebaseapp.com](https://budgetbuddy-0508.firebaseapp.com)
-- Backend API: [https://budget-buddy-backend-41557050751.us-central1.run.app](https://budget-buddy-backend-41557050751.us-central1.run.app)
+- Backend API: [https://budget-buddy-backend-41557050751.us-central1.run.app](https://budget-buddy-backend-41557050751.us-central1.run.app/docs)
 
 ## Features
 
